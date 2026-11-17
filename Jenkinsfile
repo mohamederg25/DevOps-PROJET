@@ -1,9 +1,15 @@
+
 pipeline {
     agent any
+
+    triggers {
+        githubPush()
+    }
 
     stages {
         stage('Checkout') {
             steps {
+                checkout scm
                 echo 'Project retrieved from GitHub'
             }
         }
@@ -24,4 +30,14 @@ pipeline {
             }
         }
     }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
 }
+
